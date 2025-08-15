@@ -28,4 +28,6 @@ export default defineConfig({
       deny: ["**/.*"],
     },
   },
+  // Serve assets from dist/public/assets during development
+  publicDir: path.resolve(__dirname, "dist/public"),
 });
