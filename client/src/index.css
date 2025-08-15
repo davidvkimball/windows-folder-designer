@@ -1,0 +1,344 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(0, 0%, 10%);
+  --foreground: hsl(0, 0%, 95%);
+  --card: hsl(0, 0%, 16%);
+  --card-foreground: hsl(0, 0%, 95%);
+  --popover: hsl(0, 0%, 16%);
+  --popover-foreground: hsl(0, 0%, 95%);
+  --primary: hsl(217, 91%, 60%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(0, 0%, 25%);
+  --secondary-foreground: hsl(0, 0%, 90%);
+  --muted: hsl(0, 0%, 20%);
+  --muted-foreground: hsl(0, 0%, 70%);
+  --accent: hsl(0, 0%, 20%);
+  --accent-foreground: hsl(0, 0%, 90%);
+  --destructive: hsl(0, 84%, 60%);
+  --destructive-foreground: hsl(0, 0%, 100%);
+  --border: hsl(0, 0%, 35%);
+  --input: hsl(0, 0%, 20%);
+  --ring: hsl(217, 91%, 60%);
+  --dark-primary: hsl(0, 0%, 10%);
+  --dark-secondary: hsl(0, 0%, 16%);
+  --dark-panel: hsl(0, 0%, 20%);
+  --dark-border: hsl(0, 0%, 35%);
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: var(--dark-primary);
+  }
+}
+
+@layer components {
+  .bg-dark-primary {
+    background-color: var(--dark-primary) !important;
+  }
+  
+  .bg-dark-secondary {
+    background-color: var(--dark-secondary) !important;
+  }
+  
+  .bg-dark-panel {
+    background-color: var(--dark-panel) !important;
+  }
+  
+  .border-dark {
+    border-color: var(--dark-border) !important;
+  }
+
+  /* Force visibility for common UI elements */
+  .text-card-foreground {
+    color: hsl(0, 0%, 95%) !important;
+  }
+  
+  .text-muted-foreground {
+    color: hsl(0, 0%, 70%) !important;
+  }
+  
+  .bg-card {
+    background-color: hsl(0, 0%, 16%) !important;
+  }
+  
+  .bg-secondary {
+    background-color: hsl(0, 0%, 25%) !important;
+  }
+  
+  .border-border {
+    border-color: hsl(0, 0%, 35%) !important;
+  }
+}
+
+/* Custom scrollbar for dark theme */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--dark-panel);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--dark-border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(0, 0%, 35%);
+}
+
+/* Canvas transparency background */
+.transparency-bg {
+  background-image: repeating-conic-gradient(#808080 0% 25%, transparent 0% 50%);
+  background-size: 20px 20px;
+}
+
+/* Hide number input arrows/spinners */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Enhanced UI visibility for dark theme - fixes Netlify deployment visibility issues */
+@layer components {
+  /* Toast improvements */
+  [data-radix-toast-viewport] {
+    z-index: 2147483647 !important;
+  }
+  
+  [data-radix-toast-root] {
+    background-color: hsl(0, 0%, 25%) !important;
+    border: 1px solid hsl(0, 0%, 35%) !important;
+    color: hsl(0, 0%, 95%) !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3) !important;
+  }
+  
+  [data-radix-toast-root][data-state="open"] {
+    animation: slide-in-from-top 0.3s ease-out !important;
+  }
+  
+  [data-radix-toast-root][data-state="closed"] {
+    animation: slide-out-to-right 0.2s ease-in !important;
+  }
+
+  /* Button visibility improvements */
+  button {
+    color: hsl(0, 0%, 95%) !important;
+  }
+  
+  button:disabled {
+    opacity: 0.5 !important;
+    color: hsl(0, 0%, 60%) !important;
+  }
+
+  /* Select dropdown improvements */
+  [data-radix-select-content] {
+    background-color: hsl(0, 0%, 20%) !important;
+    border: 1px solid hsl(0, 0%, 35%) !important;
+    color: hsl(0, 0%, 95%) !important;
+  }
+  
+  [data-radix-select-item] {
+    color: hsl(0, 0%, 95%) !important;
+  }
+  
+  [data-radix-select-item]:hover {
+    background-color: hsl(0, 0%, 25%) !important;
+  }
+
+  /* Input and slider improvements */
+  input[type="range"] {
+    background: hsl(0, 0%, 25%) !important;
+  }
+  
+  input[type="number"], input[type="text"] {
+    background-color: hsl(0, 0%, 20%) !important;
+    border: 1px solid hsl(0, 0%, 35%) !important;
+    color: hsl(0, 0%, 95%) !important;
+  }
+
+  /* Dialog/Modal improvements */
+  [data-radix-dialog-content] {
+    background-color: hsl(0, 0%, 16%) !important;
+    border: 1px solid hsl(0, 0%, 35%) !important;
+    color: hsl(0, 0%, 95%) !important;
+  }
+
+  /* Tabs improvements */
+  [data-radix-tabs-list] {
+    background-color: hsl(0, 0%, 16%) !important;
+    border: 1px solid hsl(0, 0%, 35%) !important;
+  }
+  
+  [data-radix-tabs-trigger] {
+    color: hsl(0, 0%, 75%) !important;
+  }
+  
+  [data-radix-tabs-trigger][data-state="active"] {
+    background-color: hsl(0, 0%, 25%) !important;
+    color: hsl(0, 0%, 95%) !important;
+  }
+
+  /* Switch improvements */
+  [data-radix-switch-root] {
+    background-color: hsl(0, 0%, 25%) !important;
+    border: 1px solid hsl(0, 0%, 35%) !important;
+  }
+  
+  [data-radix-switch-root][data-state="checked"] {
+    background-color: hsl(217, 91%, 60%) !important;
+  }
+
+  /* Slider improvements with comprehensive targeting */
+  [data-radix-slider-root], .slider-root {
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    user-select: none !important;
+    touch-action: none !important;
+    width: 100% !important;
+    height: 20px !important;
+  }
+  
+  [data-radix-slider-track], .slider-track {
+    background-color: hsl(0, 0%, 30%) !important;
+    position: relative !important;
+    flex-grow: 1 !important;
+    border-radius: 9999px !important;
+    height: 3px !important;
+  }
+  
+  [data-radix-slider-range], .slider-range {
+    position: absolute !important;
+    background-color: hsl(217, 91%, 60%) !important;
+    border-radius: 9999px !important;
+    height: 100% !important;
+  }
+  
+  [data-radix-slider-thumb], .slider-thumb {
+    display: block !important;
+    width: 20px !important;
+    height: 20px !important;
+    background-color: hsl(0, 0%, 98%) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5) !important;
+    border-radius: 10px !important;
+    border: 2px solid hsl(217, 91%, 60%) !important;
+    cursor: pointer !important;
+  }
+  
+  [data-radix-slider-thumb]:hover, .slider-thumb:hover {
+    background-color: hsl(0, 0%, 100%) !important;
+  }
+  
+  [data-radix-slider-thumb]:focus, .slider-thumb:focus {
+    outline: none !important;
+    box-shadow: 0 0 0 5px rgba(59, 130, 246, 0.5) !important;
+  }
+
+  /* Switch improvements with comprehensive targeting */
+  [data-radix-switch-root], .switch-root {
+    width: 42px !important;
+    height: 25px !important;
+    background-color: hsl(0, 0%, 30%) !important;
+    border-radius: 9999px !important;
+    position: relative !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3) !important;
+    border: none !important;
+    cursor: pointer !important;
+    outline: none !important;
+  }
+  
+  [data-radix-switch-root]:focus, .switch-root:focus {
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5) !important;
+  }
+  
+  [data-radix-switch-root][data-state="checked"], .switch-root[data-state="checked"] {
+    background-color: hsl(217, 91%, 60%) !important;
+  }
+  
+  [data-radix-switch-thumb], .switch-thumb {
+    display: block !important;
+    width: 21px !important;
+    height: 21px !important;
+    background-color: hsl(0, 0%, 100%) !important;
+    border-radius: 9999px !important;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2) !important;
+    transition: transform 100ms !important;
+    transform: translateX(2px) !important;
+    will-change: transform !important;
+  }
+  
+  [data-radix-switch-thumb][data-state="checked"], .switch-thumb[data-state="checked"] {
+    transform: translateX(19px) !important;
+  }
+
+  /* Enhanced class-based targeting for Tailwind utilities */
+  .bg-muted {
+    background-color: hsl(0, 0%, 20%) !important;
+  }
+  
+  .bg-background {
+    background-color: hsl(0, 0%, 10%) !important;
+  }
+  
+  .text-foreground {
+    color: hsl(0, 0%, 95%) !important;
+  }
+  
+  .border {
+    border-color: hsl(0, 0%, 35%) !important;
+  }
+  
+  /* Additional Radix component targeting */
+  [role="slider"] {
+    background-color: hsl(0, 0%, 98%) !important;
+    border: 2px solid hsl(217, 91%, 60%) !important;
+  }
+  
+  [role="switch"] {
+    background-color: hsl(0, 0%, 30%) !important;
+  }
+  
+  [role="switch"][aria-checked="true"] {
+    background-color: hsl(217, 91%, 60%) !important;
+  }
+}
+
+@keyframes slide-in-from-top {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-out-to-right {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
