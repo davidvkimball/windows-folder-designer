@@ -6,6 +6,7 @@ import { IconProcessor } from "./services/icon-processor";
 import { IcoParser } from "./services/ico-parser";
 import { SvgProcessor } from "./services/svg-processor";
 import sharp from "sharp";
+import path from "path";
 
 // Configure multer for file uploads
 const upload = multer({
@@ -30,6 +31,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   
   // Serve attached assets
   app.use('/attached_assets', express.static('attached_assets'));
+
+  // Serve favicon.ico
+  app.get('/favicon.ico', (req, res) => {
+    res.sendFile(path.join(process.cwd(), 'client', 'public', 'favicon.ico'));
+  });
 
   // Parse ICO file and extract individual images
   app.post("/api/icons/parse-ico", upload.single('ico'), async (req, res) => {

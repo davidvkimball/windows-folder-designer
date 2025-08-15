@@ -61,8 +61,20 @@ export function ImageUpload({ onImageUpload, onIcoUpload, onSvgUpload, onSizeSpe
 
     try {
       if (isIcoFile && onIcoUpload) {
-        // Handle ICO file upload - client-side processing
+        // Handle ICO file upload - client-side processing only
+        console.log("Processing ICO file:", { name: file.name, size: file.size, type: file.type });
+        
+        // Validate ICO file before processing
+        if (!ClientIcoProcessor.validateIcoFile(file)) {
+          throw new Error("The file is not a valid ICO file. Please check the file format.");
+        }
+        
         const sizeImages = await ClientIcoProcessor.parseIcoFile(file);
+        
+        if (Object.keys(sizeImages).length === 0) {
+          throw new Error("No valid images could be extracted from the ICO file");
+        }
+        
         onIcoUpload(sizeImages);
 
         toast({
@@ -91,9 +103,24 @@ export function ImageUpload({ onImageUpload, onIcoUpload, onSvgUpload, onSizeSpe
       }
     } catch (error) {
       console.error("Upload failed:", error);
+      
+      let errorMessage = "Failed to upload the file. Please try again.";
+      
+      if (error instanceof Error) {
+        if (error.message.includes("Invalid ICO file")) {
+          errorMessage = "The file is not a valid ICO file. Please check the file format.";
+        } else if (error.message.includes("No valid images")) {
+          errorMessage = "No valid images could be extracted from the ICO file.";
+        } else if (error.message.includes("Failed to convert")) {
+          errorMessage = "Failed to process one or more images in the ICO file.";
+        } else {
+          errorMessage = error.message;
+        }
+      }
+      
       toast({
         title: "Upload failed",
-        description: error instanceof Error ? error.message : "Failed to upload the file. Please try again.",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {

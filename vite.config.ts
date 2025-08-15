@@ -28,6 +28,6 @@ export default defineConfig({
       deny: ["**/.*"],
     },
   },
-  // Serve assets from dist/public/assets during development
-  publicDir: path.resolve(__dirname, "dist/public"),
+  // Serve assets from client/public during development and copy to build output
+  publicDir: path.resolve(__dirname, "client", "public"),
 });
