@@ -326,7 +326,7 @@ export default function IconDesigner() {
         {/* Left: Title */}
         <div className="flex items-center space-x-4">
           <Folder className="text-yellow-500 text-xl" />
-          <h1 className="text-lg font-semibold">Windows Folder Designer by <a href="https://davidvkimball.com" target="_blank" className="text-blue-400 hover:text-blue-300 underline">David V. Kimball</a></h1>
+          <h1 className="text-lg font-semibold">Windows Folder Designer (Alpha) by <a href="https://davidvkimball.com" target="_blank" className="text-blue-400 hover:text-blue-300 underline">David V. Kimball</a></h1>
         </div>
 
         {/* Center: GitHub Button */}
