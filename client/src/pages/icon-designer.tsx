@@ -198,6 +198,20 @@ export default function IconDesigner() {
     // Disable auto-resize when ICO is uploaded
     setAutoResize(false);
     
+    // Ensure all layers are properly configured for the complete icon
+    // Update back-folder layer to ensure it's visible
+    updateLayer("back-folder", { 
+      visible: true,
+      opacity: 100
+    });
+    
+    // Update front-folder layer to ensure it's visible  
+    updateLayer("front-folder", { 
+      visible: true,
+      opacity: 100
+    });
+    
+    // Update user-image layer with the uploaded ICO images
     updateLayer("user-image", { 
       sizeSpecificImages: sizeImages,
       visible: true,
@@ -217,6 +231,20 @@ export default function IconDesigner() {
     // Disable auto-resize when SVG is uploaded
     setAutoResize(false);
     
+    // Ensure all layers are properly configured for the complete icon
+    // Update back-folder layer to ensure it's visible
+    updateLayer("back-folder", { 
+      visible: true,
+      opacity: 100
+    });
+    
+    // Update front-folder layer to ensure it's visible  
+    updateLayer("front-folder", { 
+      visible: true,
+      opacity: 100
+    });
+    
+    // Update user-image layer with the uploaded SVG images
     updateLayer("user-image", { 
       sizeSpecificImages: sizeImages,
       visible: true,

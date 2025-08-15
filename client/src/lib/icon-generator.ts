@@ -3,6 +3,7 @@
 
 import JSZip from 'jszip';
 import type { Layer } from '../../../shared/schema';
+import { getFolderAsset } from './folder-assets';
 
 export class ClientIconGenerator {
   private static readonly ICON_SIZES = [16, 20, 24, 32, 40, 64, 256];
@@ -11,10 +12,14 @@ export class ClientIconGenerator {
    * Generate ICO file from canvas layers (client-side)
    */
   static async generateIcoFromLayers(layers: Layer[]): Promise<Blob> {
+    console.log("Starting ICO generation with layers:", layers.map(l => ({ id: l.id, type: l.type, visible: l.visible, order: l.order })));
+    
     const imageBuffers: Record<string, ArrayBuffer> = {};
 
     // Generate PNG for each size
     for (const size of this.ICON_SIZES) {
+      console.log(`Generating size ${size}px...`);
+      
       const canvas = document.createElement('canvas');
       canvas.width = size;
       canvas.height = size;
@@ -28,8 +33,11 @@ export class ClientIconGenerator {
       const blob = await this.canvasToBlob(canvas, 'image/png');
       const arrayBuffer = await blob.arrayBuffer();
       imageBuffers[size.toString()] = arrayBuffer;
+      
+      console.log(`Size ${size}px generated, buffer size: ${arrayBuffer.byteLength} bytes`);
     }
 
+    console.log("Creating ICO file from", Object.keys(imageBuffers).length, "sizes");
     // Create ICO file from PNG buffers
     return this.createIcoFromPngs(imageBuffers);
   }
@@ -71,8 +79,15 @@ export class ClientIconGenerator {
     // Sort layers by order (lower numbers render first)
     const sortedLayers = [...layers].sort((a, b) => a.order - b.order);
     
+    console.log(`Rendering ${sortedLayers.length} layers for size ${size}px:`, sortedLayers.map(l => ({ id: l.id, type: l.type, visible: l.visible, order: l.order })));
+    
     for (const layer of sortedLayers) {
-      if (!layer.visible) continue;
+      if (!layer.visible) {
+        console.log(`Skipping invisible layer: ${layer.id}`);
+        continue;
+      }
+      
+      console.log(`Rendering layer: ${layer.id} (${layer.type})`);
       
       ctx.save();
       ctx.globalAlpha = layer.opacity / 100;
@@ -101,8 +116,8 @@ export class ClientIconGenerator {
   private static async renderFolderLayer(ctx: CanvasRenderingContext2D, layer: Layer, size: number): Promise<void> {
     const isBack = layer.type === 'back-folder';
     
-    // Try to load folder image from assets
-    const assetPath = `/attached_assets/folder-${isBack ? 'back' : 'front'}-${size}.png`;
+    // Use the same asset loading method as CanvasRenderer
+    const assetPath = getFolderAsset(isBack ? 'back' : 'front', size);
     
     try {
       const img = await this.loadImage(assetPath);
@@ -113,6 +128,7 @@ export class ClientIconGenerator {
         ctx.drawImage(img, 0, 0, size, size);
       }
     } catch (error) {
+      console.error(`Failed to load folder asset for ${isBack ? 'back' : 'front'} at size ${size}:`, error);
       // Fallback to simple colored rectangles if assets not found
       this.renderFolderFallback(ctx, layer, isBack, size);
     }
