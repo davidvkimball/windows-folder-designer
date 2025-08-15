@@ -2,6 +2,8 @@
 
 Create custom Windows folder icons that can be exported in multiple formats and sizes (ICO files or PNGs).
 
+![](/preview.png)
+
 ## Features
 - Visual layer-based icon editing with real-time preview
 - Support for multiple icon sizes (16px to 256px)
